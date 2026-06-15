@@ -2,7 +2,9 @@ const { channelId } = require('../config.json');
 
 module.exports = {
     name: 'interactionCreate',
+    
     onEvent: async (interaction) => {
-        await interaction.reply('Hello bro');
+        let client = interaction.client;
+        client.commands[interaction.commandName].execute(interaction);
     }
 }

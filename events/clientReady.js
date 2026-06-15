@@ -1,3 +1,4 @@
+const { Collection } = require('discord.js');
 const { channelId } = require('../config.json');
 
 const fs = require('node:fs');
@@ -6,22 +7,23 @@ const path = require('node:path');
 const commandsArray = [];
 const commandsFolder = fs.readdirSync('./commands');
 
-for (const commandModule of commandsFolder) {
-    console.log(commandModule);
-    const pathToModule = '../commands/' + commandModule
-    const command = require(pathToModule);
-
-    commandsArray.push(command.data);
-}
-
 module.exports = {
     name: 'clientReady',
+    
     onEvent: async (client) => {
         let channel = await client.channels.fetch(channelId);
 
-        client.application.commands.set(commandsArray);
+        client.commands = {};
 
-        console.log('Started');
-        //channel.send('HELO WORLD!');
+        for (const commandModule of commandsFolder) {
+            const pathToModule = '../commands/' + commandModule
+            const command = require(pathToModule);
+
+            client.commands[command.data.name] = command;
+
+            commandsArray.push(command.data);
+        }
+
+        client.application.commands.set(commandsArray);
     }
 }
