@@ -21,6 +21,11 @@ module.exports = {
     ),
 
     async execute(interaction) {
+        if (true) {
+            errorEmbed(interaction, 'This command is temporarily disabled.')
+            return;
+        }
+
         let client = interaction.client;
         let member = interaction.member;
 

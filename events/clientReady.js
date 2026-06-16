@@ -9,6 +9,7 @@ module.exports = {
     
     onEvent: async (client) => {
         client.commands = {};
+        client.startTime = Date.now() / 1000;
         client.headers = {
                 'x-api-key': process.env.API_KEY,
                 'Content-Type': 'application/json'

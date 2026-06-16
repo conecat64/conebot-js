@@ -25,7 +25,13 @@
         "robux": "<:robux:1452001415693340895> ",
         "what": "<:what:1452963147462738008> ",
         "no": "<:no:1452000812850217196> ",
-        "yes": "<:yes:1452000766125539561> "
+        "yes": "<:yes:1452000766125539561> ",
+        "link": "<:link:1469645965215535207> ",
+        "srguy": "<:srguy:1452277729889091594> ",
+        "bloxxer": "<:bloxxer:1452274296121725081> ",
+        "travelerguy": "<:travelerguy:1454898903005659279> ",
+        "sparkles": "<:sparkles:1232459039091331102> ",
+        "question": "<:question:1452256280747180122> "
     },
     "places": {
         "sb64": {
@@ -33,14 +39,14 @@
             "universe": "5402993487",
             "place": "15644138782",
             "datastore": "ReleaseData",
-            "emoji": "playerPoint"
+            "emoji": "bloxxer"
         },
         "sr": {
             "name": "Superstar Racers",
             "universe": "6182655829",
             "place": "18238180555",
             "datastore": "SaveData",
-            "emoji": "sr",
+            "emoji": "srguy",
             "maps": [
                 {
                     "id": "Candy",
@@ -127,7 +133,7 @@
             "datastore": "ABJData",
             "gamepass": "1507450319",
             "role": "1465072717865681018",
-            "emoji": "spark"
+            "emoji": "travelerguy"
         },
         "verification": {
             "universe": "7813156957",

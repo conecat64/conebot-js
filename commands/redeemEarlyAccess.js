@@ -18,6 +18,7 @@ module.exports = {
 
     async execute(interaction) {
         let client = interaction.client;
+        let user = interaction.member.user;
         let gameData = places.verification;
 
         let username = interaction.options.getString('username');
@@ -27,6 +28,7 @@ module.exports = {
 
         let embed = new EmbedBuilder()
             .setTitle(emojis.robux + 'Redeem Early Access')
+            .setFooter({ text: 'conebot by CONECORP', iconURL: user.displayAvatarURL() })
             .setAuthor({ name: userInfo.displayName, iconURL: userHeadshot })
             .setTimestamp()
 

@@ -1,10 +1,11 @@
 const { EmbedBuilder, MessageFlags, embedLength } = require('discord.js');
 
-module.exports = async function(interaction, description) {
+module.exports = async function (interaction, description) {
     let errorEmbed = new EmbedBuilder()
-    .setColor(0xff003c)
-    .setTitle('Error!')
-    .setDescription('`' + description + '`')
+        .setColor(0xff003c)
+        .setTitle('Error!')
+        .setDescription('`' + description + '`')
+        .setTimestamp()
 
-    await interaction.reply({ embeds: [ errorEmbed ], flags: MessageFlags.Ephemeral })
+    await interaction.reply({ embeds: [errorEmbed], flags: MessageFlags.Ephemeral })
 }
