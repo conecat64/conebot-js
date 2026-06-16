@@ -11,20 +11,36 @@
     "embedColors": {
         "red": "#ff003c",
         "green": "#00de7a",
-        "yellow": "#fcba03"
+        "yellow": "#fcba03",
+        "orange": "#fc6703"
+    },
+    "emojis": {
+        "eyes": "<:eyes:1399139102129127424> ",
+        "colorboard": "<:colorboard:1452262154601238558> ",
+        "book": "<:book:1452252716062478347> ",
+        "spark": "<:spark:1452249717588361288> ",
+        "playerPoint": "<:playerpoint:1452264598601334845> ",
+        "sr": "<:sr:1452245346326675531> ",
+        "mag": "<:mag:1452254804465422379> ",
+        "robux": "<:robux:1452001415693340895> ",
+        "what": "<:what:1452963147462738008> ",
+        "no": "<:no:1452000812850217196> ",
+        "yes": "<:yes:1452000766125539561> "
     },
     "places": {
         "sb64": {
             "name": "SUPER BLOX 64!",
             "universe": "5402993487",
             "place": "15644138782",
-            "datastore": "ReleaseData"
+            "datastore": "ReleaseData",
+            "emoji": "playerPoint"
         },
         "sr": {
             "name": "Superstar Racers",
             "universe": "6182655829",
             "place": "18238180555",
             "datastore": "SaveData",
+            "emoji": "sr",
             "maps": [
                 {
                     "id": "Candy",
@@ -110,7 +126,8 @@
             "place": "110541442509291",
             "datastore": "ABJData",
             "gamepass": "1507450319",
-            "role": "1465072717865681018"
+            "role": "1465072717865681018",
+            "emoji": "spark"
         },
         "verification": {
             "universe": "7813156957",

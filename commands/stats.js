@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder, MessageFlags } = require('discord.js');
-const { places, embedColors } = require('../config.json');
+const { places, embedColors, emojis } = require('../config.json');
 
 const errorEmbed = require('../utils/errorEmbed');
 const getUserInfo = require('../utils/getUserInfo');
@@ -44,10 +44,10 @@ module.exports = {
             return;
         }
 
-        let description = ''
+        let description = '';
         let embed = new EmbedBuilder()
-            .setAuthor({ name: userData.displayName + '\'s save file', iconURL: userHeadshot })
-            .setTitle('View player stats')
+            .setAuthor({ name: userData.displayName + '\'s ' + placeInfo.name + ' file', iconURL: userHeadshot })
+            .setTitle(emojis[placeInfo.emoji] + 'View player stats')
             .setFooter({ text: 'conebot by CONECORP', iconURL: gameIcon })
             .setColor(embedColors.green)
             .setTimestamp()

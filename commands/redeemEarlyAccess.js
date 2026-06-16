@@ -1,5 +1,5 @@
 const { EmbedBuilder, SlashCommandBuilder, MessageFlags, Embed } = require('discord.js');
-const { places, embedColors } = require('../config.json');
+const { places, embedColors, emojis } = require('../config.json');
 
 const getSaveData = require('../utils/getSaveData');
 const getUserInfo = require('../utils/getUserInfo');
@@ -26,7 +26,7 @@ module.exports = {
         let userHeadshot = await getUserHeadshot(client, userInfo.id);
 
         let embed = new EmbedBuilder()
-            .setTitle('Redeem Early Access')
+            .setTitle(emojis.robux + 'Redeem Early Access')
             .setAuthor({ name: userInfo.displayName, iconURL: userHeadshot })
             .setTimestamp()
 
@@ -44,15 +44,24 @@ module.exports = {
                 body: JSON.stringify(body)
             });
 
-            embed.setDescription('**We need to first check if the username you inputted is actually you.**\nJoin [A Block\'s Journey](https://www.roblox.com/games/110541442509291/), and then run the command again.')
+            embed.setDescription(emojis.what + '**We need to first check if the username you inputted is actually you.**\n1. Join [A Block\'s Journey](https://www.roblox.com/games/110541442509291/) on the inputted account\n2. Run the command again')
                 .setColor(embedColors.yellow)
 
         } else {
             if (saveData.Verified && saveData.OwnsEarlyAccess) {
-                embed.setDescription('**You\'ve successfully redeemed your Early Access!**\nYou now have permanent access to investor only channels.')
+                embed.setDescription(emojis.yes + '**You\'ve successfully redeemed your Early Access!**\nYou now have permanent access to investor only channels.\n' + emojis.eyes + '**Check them out!**\n<#1465073243915419670>\n<#1465073798389698600>')
                     .setColor(embedColors.green)
+
+            } else if (!saveData.Verified) {
+                embed.setDescription(emojis.what + '**Seems like your verification process is still pending.**\nJoin [A Block\'s Journey](https://www.roblox.com/games/110541442509291/) on the inputted account, and then run the command again.')
+                    .setColor(embedColors.yellow)
+
+            } else if (saveData.Verified && !saveData.OwnsEarlyAccess) {
+                embed.setDescription(emojis.no + '**It looks like you don\'t own the gamepass...**\nYou can purchase it [here](https://www.roblox.com/game-pass/1507450319/Early-Access).')
+                    .setColor(embedColors.red)
+
             } else {
-                embed.setDescription('**It looks like you don\'t own the gamepass...**\nYou can purchase it [here](https://www.roblox.com/game-pass/1507450319/Early-Access).')
+                embed.setDescription(emojis.no + '**You really shouldn\'t be seeing this...**\nHow did you do this?')
                     .setColor(embedColors.red)
             }
         }
