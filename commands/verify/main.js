@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, MessageFlags } = require('discord.js');
-const { verifiedRoleId } = require('../config.json');
+const { verifiedRoleId } = require('../../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder().setName('verify').setDescription('Gives you the verified role.'),

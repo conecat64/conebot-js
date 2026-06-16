@@ -2,8 +2,17 @@
     "guildId": "1186212011869216899",
     "clientId": "905420513021681704",
     "verifiedRoleId": "1409280989863084206",
-
     "places": {
+        "sb64": {
+            "universe": "5402993487",
+            "place": "15644138782",
+            "datastore": "ReleaseData"
+        },
+        "sr": {
+            "universe": "6182655829",
+            "place": "18238180555",
+            "datastore": "SaveData"
+        },
         "abj": {
             "universe": "7813156957",
             "place": "110541442509291",

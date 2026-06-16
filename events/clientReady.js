@@ -15,7 +15,7 @@ module.exports = {
             }
 
         for (const commandModule of commandsFolder) {
-            const pathToModule = '../commands/' + commandModule
+            const pathToModule = '../commands/' + commandModule + '/main'
             const command = require(pathToModule);
 
             client.commands[command.data.name] = command;
