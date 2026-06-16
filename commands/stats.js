@@ -1,11 +1,11 @@
 const { EmbedBuilder, SlashCommandBuilder, MessageFlags } = require('discord.js');
-const { places } = require('../../config.json');
+const { places, embedColors } = require('../config.json');
 
-const errorEmbed = require('../../utils/errorEmbed');
-const getUserInfo = require('../../utils/getUserInfo');
-const getUserHeadshot = require('./utils/getUserHeadshot')
-const getSaveData = require('./utils/getSaveData')
-const getGameIcon = require('./utils/getGameIcon')
+const errorEmbed = require('../utils/errorEmbed');
+const getUserInfo = require('../utils/getUserInfo');
+const getUserHeadshot = require('../utils/getUserHeadshot')
+const getSaveData = require('../utils/getSaveData')
+const getGameIcon = require('../utils/getGameIcon')
 
 const START_BOLD = '\n\u{001b}[1;2m'
 const END_BOLD = '\u{001b}[0m: '
@@ -46,16 +46,15 @@ module.exports = {
         }
 
         let saveFile = await getSaveData(client, placeInfo, userData.id);
-        let gameIcon = await getGameIcon(client, placeInfo.place);
         let userHeadshot = await getUserHeadshot(client, userData.id);
+        let gameIcon = await getGameIcon(client, gamename);
 
         let description = ''
         let embed = new EmbedBuilder()
             .setAuthor({ name: userData.displayName + '\'s save file', iconURL: userHeadshot })
-            .setColor(0x00de7a)
+            .setFooter({ text: 'conebot by CONECORP', iconURL: gameIcon })
+            .setColor(embedColors.green)
             .setTimestamp()
-            .setFooter({ text: 'conebot by CONECORP', iconURL: gameIcon });
-
 
         if (gameName == 'sb64') {
             for (let fileNumber = 1; fileNumber <= 2; fileNumber++) {
