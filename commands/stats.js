@@ -8,28 +8,18 @@ const getSaveData = require('../utils/getSaveData')
 const getGameIcon = require('../utils/getGameIcon')
 
 const START_BOLD = '\n\u{001b}[1;2m'
-const END_BOLD = '\u{001b}[0m: '
+const END_BOLD = '\u{001b}[0m'
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('stats')
         .setDescription('View any player\'s stats from any CONECORP game!')
-
-        .addStringOption(option => option
-            .setName('username')
-            .setDescription('Username of the player whose data you want to view.')
-            .setRequired(true)
+        .addStringOption(option => option.setName('username').setDescription('Username of the player whose data you want to view.').setRequired(true))
+        .addStringOption(option => option.setName('game').setDescription('Choose a game.').setRequired(true).setChoices(
+            { name: 'SUPER BLOX 64!', value: 'sb64' },
+            { name: 'Superstar Racers', value: 'sr' },
+            { name: 'A Block\'s Journey', value: 'abj' }
         )
-
-        .addStringOption(option => option
-            .setName('game')
-            .setDescription('Choose a game.')
-            .setRequired(true)
-            .setChoices(
-                { name: 'SUPER BLOX 64!', value: 'sb64' },
-                { name: 'Superstar Racers', value: 'sr' },
-                { name: 'A Block\'s Journey', value: 'abj' }
-            )
         ),
 
     async execute(interaction) {
@@ -41,17 +31,23 @@ module.exports = {
         let userData = await getUserInfo(client, username);
 
         if (!userData) {
-            await errorEmbed(interaction, 'Failed to fetch data for ' + username + '.')
+            await errorEmbed(interaction, 'Failed to fetch data for ' + username + '.');
             return;
         }
 
         let saveFile = await getSaveData(client, placeInfo, userData.id);
         let userHeadshot = await getUserHeadshot(client, userData.id);
-        let gameIcon = await getGameIcon(client, gamename);
+        let gameIcon = await getGameIcon(client, gameName);
+
+        if (!saveFile) {
+            await errorEmbed(interaction, 'User has no save data attached');
+            return;
+        }
 
         let description = ''
         let embed = new EmbedBuilder()
             .setAuthor({ name: userData.displayName + '\'s save file', iconURL: userHeadshot })
+            .setTitle('View player stats')
             .setFooter({ text: 'conebot by CONECORP', iconURL: gameIcon })
             .setColor(embedColors.green)
             .setTimestamp()
@@ -64,8 +60,8 @@ module.exports = {
                 let playtime = saveDataThisFile.Playtime;
 
                 description += '**File ' + fileNumber + '**```ansi';
-                description += START_BOLD + 'Player Points' + END_BOLD + playerPoints + ' + ' + goldPlayerPoints;
-                description += START_BOLD + 'Playtime' + END_BOLD + playtime;
+                description += START_BOLD + 'Player Points   ' + END_BOLD + playerPoints + ' + ' + goldPlayerPoints;
+                description += START_BOLD + 'Playtime        ' + END_BOLD + Math.round(playtime);
                 description += '```\n'
             }
 
@@ -86,9 +82,9 @@ module.exports = {
                 }
 
                 description += '**File ' + fileNumber + '**```ansi';
-                description += START_BOLD + 'Power Orbs' + END_BOLD + powerOrbs;
-                description += START_BOLD + 'Playtime' + END_BOLD + playtimeSeconds;
-                description += START_BOLD + 'Sparks' + END_BOLD + coins;
+                description += START_BOLD + 'Power Orbs   ' + END_BOLD + powerOrbs;
+                description += START_BOLD + 'Playtime     ' + END_BOLD + playtimeSeconds;
+                description += START_BOLD + 'Sparks       ' + END_BOLD + coins;
                 description += '```\n'
             }
         }

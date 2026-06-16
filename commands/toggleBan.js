@@ -11,29 +11,14 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('toggle-ban')
         .setDescription('Toggle someone\'s banned status from a CONECORP game.')
-
-        .addBooleanOption(option => option
-            .setName('banned')
-            .setDescription('Whether or not the player should be banned or not.')
-            .setRequired(true)
+        .addBooleanOption(option => option.setName('banned').setDescription('Whether or not the player should be banned or not.').setRequired(true))
+        .addStringOption(option => option.setName('username').setDescription('Username of the targeted player.').setRequired(true))
+        .addStringOption(option => option.setName('game').setDescription('Choose a game.').setRequired(true).setChoices(
+            { name: 'SUPER BLOX 64!', value: 'sb64' },
+            { name: 'Superstar Racers', value: 'sr' },
+            { name: 'A Block\'s Journey', value: 'abj' }
         )
-
-        .addStringOption(option => option
-            .setName('username')
-            .setDescription('Username of the targeted player.')
-            .setRequired(true)
-        )
-
-        .addStringOption(option => option
-            .setName('game')
-            .setDescription('Choose a game.')
-            .setRequired(true)
-            .setChoices(
-                { name: 'SUPER BLOX 64!', value: 'sb64' },
-                { name: 'Superstar Racers', value: 'sr' },
-                { name: 'A Block\'s Journey', value: 'abj' }
-            )
-        ),
+    ),
 
     async execute(interaction) {
         let client = interaction.client;
@@ -49,9 +34,9 @@ module.exports = {
         let gameName = interaction.options.getString('game');
 
         let placeInfo = places[gameName];
-        let userData = await getUserInfo(client, username);
+        let userInfo = await getUserInfo(client, username);
 
-        if (!userData) {
+        if (!userInfo) {
             await errorEmbed(interaction, 'Failed to fetch data for ' + username + '.')
             return;
         }
@@ -61,27 +46,18 @@ module.exports = {
 
         let userInfoString = '**' + userData.displayName + '** (@' + userData.name + ') from **' + placeInfo.name + '**.'
         let embed = new EmbedBuilder()
+            .setTitle('Toggle ban status')
+            .setAuthor({ name: userInfo.displayName, iconURL: userHeadshot })
+            .setFooter({ text: 'conebot by CONECORP', iconURL: gameIcon })
             .setTimestamp()
 
         if (banned) {
-            embed.setAuthor({ name: 'User banned', iconURL: userHeadshot })
-                .setDescription('Successfully banned ' + userInfoString)
-                .setFooter({ text: 'Goodbye!', iconURL: gameIcon })
-                .setColor(embedColors.red)
-
-            scriptContent = `
-            local config = { UserIds = { <ID> }, Duration = -1, DisplayReason = 'Banned by admin', PrivateReason = 'Banned by admin' }
-            game.Players:BanAsync(config)`
+            embed.setDescription('Successfully banned ' + userInfoString).setColor(embedColors.red)
+            scriptContent = 'game.Players:BanAsync({ UserIds = { <ID> }, Duration = -1, DisplayReason = \'Banned by admin\', PrivateReason = \'Banned by admin\' })'
 
         } else {
-            embed.setAuthor({ name: 'User unbanned', iconURL: userHeadshot })
-                .setDescription('Successfully unbanned ' + userInfoString)
-                .setFooter({ text: 'Welcome back!', iconURL: gameIcon })
-                .setColor(embedColors.green)
-
-            scriptContent = `
-            local config = { UserIds = { <ID> }, ApplyToUniverse = true }
-            game.Players:UnbanAsync(config)`
+            embed.setDescription('Successfully unbanned ' + userInfoString).setColor(embedColors.green)
+            scriptContent = 'game.Players:UnbanAsync({ UserIds = { <ID> }, ApplyToUniverse = true })'
         }
 
         scriptContent = scriptContent.replace('<ID>', userData.id);

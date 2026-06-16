@@ -10,7 +10,8 @@
     ],
     "embedColors": {
         "red": "#ff003c",
-        "green": "#00de7a"
+        "green": "#00de7a",
+        "yellow": "#fcba03"
     },
     "places": {
         "sb64": {
