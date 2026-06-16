@@ -19,7 +19,6 @@ module.exports = {
             const command = require(pathToModule);
 
             client.commands[command.data.name] = command;
-
             commandsArray.push(command.data);
         }
 
