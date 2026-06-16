@@ -1,8 +1,5 @@
-const { Collection } = require('discord.js');
-const { channelId } = require('../config.json');
-
-const fs = require('node:fs');
-const path = require('node:path');
+const { Client } = require('discord.js');
+const fs = require('fs');
 
 const commandsArray = [];
 const commandsFolder = fs.readdirSync('./commands');
@@ -11,8 +8,6 @@ module.exports = {
     name: 'clientReady',
     
     onEvent: async (client) => {
-        let channel = await client.channels.fetch(channelId);
-
         client.commands = {};
 
         for (const commandModule of commandsFolder) {
@@ -25,5 +20,6 @@ module.exports = {
         }
 
         client.application.commands.set(commandsArray);
+        console.log('Ready!');
     }
 }

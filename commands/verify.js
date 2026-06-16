@@ -1,8 +1,18 @@
 const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { verifiedRoleId } = require('../config.json');
 
 module.exports = {
-    data: new SlashCommandBuilder().setName('verify').setDescription('verifies you'),
+    data: new SlashCommandBuilder().setName('verify').setDescription('Gives you the verified role.'),
+
     async execute(interaction) {
-        await interaction.reply({ content: 'I didn\'t verify you, because im doing jack shit right now aside from sending a message. fuck you.', flags: MessageFlags.Ephemeral });
+        let member = interaction.member;
+        let role = await interaction.guild.roles.fetch(verifiedRoleId);
+        
+        member.roles.add(role);
+
+        await interaction.reply({
+            content: 'Welcome to the server!',
+            flags: MessageFlags.Ephemeral
+        });
     }
 }
