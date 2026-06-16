@@ -9,6 +9,10 @@ module.exports = {
     
     onEvent: async (client) => {
         client.commands = {};
+        client.headers = {
+                'x-api-key': process.env.API_KEY,
+                'Content-Type': 'application/json'
+            }
 
         for (const commandModule of commandsFolder) {
             const pathToModule = '../commands/' + commandModule
