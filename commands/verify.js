@@ -12,8 +12,7 @@ module.exports = {
         let member = interaction.member;
         let user = member.user;
         let role = member.guild.roles.cache.find(role => role.id === verifiedRoleId);
-
-        let alreadyHasRole = member.roles.cache.some(role => role.id === places.abj.role);
+        let alreadyHasRole = member.roles.cache.some(role => role.id === verifiedRoleId);
 
         if (alreadyHasRole) {
             await errorEmbed(interaction, 'You are already verified!');
