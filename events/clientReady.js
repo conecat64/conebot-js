@@ -6,14 +6,14 @@ const commandsFolder = fs.readdirSync('./commands');
 
 module.exports = {
     name: 'clientReady',
-    
+
     onEvent: async (client) => {
         client.commands = {};
         client.startTime = Date.now() / 1000;
         client.headers = {
-                'x-api-key': process.env.API_KEY,
-                'Content-Type': 'application/json'
-            }
+            'x-api-key': process.env.API_KEY,
+            'Content-Type': 'application/json'
+        }
 
         for (const commandModule of commandsFolder) {
             const pathToModule = '../commands/' + commandModule;
@@ -24,6 +24,6 @@ module.exports = {
         }
 
         client.application.commands.set(commandsArray);
-        console.log('Ready!');
+        console.log('Logged in as ' + client.user.username);
     }
 }
