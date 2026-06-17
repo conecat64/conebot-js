@@ -7,14 +7,8 @@ module.exports = async function (interaction, description, makePublic) {
         .setDescription('`' + description + '`')
         .setTimestamp()
 
-    if (makePublic) {
-        await interaction.reply({
-            embeds: [errorEmbed]
-        })
-    } else {
-        await interaction.reply({
-            embeds: [errorEmbed],
-            flags: MessageFlags.Ephemeral
-        })
-    }
+    await interaction.reply({
+        embeds: [errorEmbed],
+        flags: (makePublic) ? undefined : MessageFlags.Ephemeral
+    })
 }

@@ -9,7 +9,9 @@ module.exports = {
     async execute(interaction) {
         let member = interaction.member;
         let user = member.user;
-        //let role = await interaction.guild.roles.fetch(verifiedRoleId);
+        let role = member.guild.roles.cache.find(role => role.id === verifiedRoleId);
+        
+        member.roles.add(role);
 
         let embed = new EmbedBuilder()
             .setTitle('Welcome to CONECORP!')
