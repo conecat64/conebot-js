@@ -20,9 +20,10 @@ module.exports = {
 
     async execute(interaction) {
         let client = interaction.client;
-        let user = interaction.member.user;
+        let member = interaction.member;
+        let user = member.user;
         let gameData = places.verification;
-        let alreadyHasRole = interaction.member.roles.cache.some(role => role.id === '1465072717865681018');
+        let alreadyHasRole = member.roles.cache.some(role => role.id === places.abj.role);
 
         if (alreadyHasRole) {
             errorEmbed(interaction, 'You already have the role');
@@ -71,6 +72,9 @@ module.exports = {
                         .setColor(embedColors.red)
 
                 } else {
+                    let role = member.guild.roles.cache.find(role => role.id === places.abj.role);
+                    member.roles.add(role);
+
                     embed.setDescription(emojis.yes + '**You\'ve successfully redeemed your Early Access!**\nYou now have permanent access to investor only channels.\n' + emojis.eyes + '**Check them out!**\n<#1465073243915419670>\n<#1465073798389698600>')
                         .setColor(embedColors.green)
                 }

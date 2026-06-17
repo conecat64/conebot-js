@@ -1,11 +1,12 @@
 const { EmbedBuilder, SlashCommandBuilder, MessageFlags } = require('discord.js');
-const { places, embedColors } = require('../config.json');
+const { places, embedColors, modRoles } = require('../config.json');
 
 const runSandboxedLuau = require('../utils/runSandboxedLuau');
 const getUserHeadshot = require('../utils/getUserHeadshot');
 const getUserInfo = require('../utils/getUserInfo');
 const getGameIcon = require('../utils/getGameIcon');
 const errorEmbed = require('../utils/errorEmbed');
+const { compose } = require('node:stream');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,18 +22,18 @@ module.exports = {
     ),
 
     async execute(interaction) {
-        if (true) {
-            errorEmbed(interaction, 'This command is temporarily disabled.')
-            return;
-        }
-
         let client = interaction.client;
         let member = interaction.member;
+        let isModerator = false;
 
-        let roles = await member.roles.fetch();
-        let hasRole = roles.find(r => r.name === 'Manager');
+        for (index in modRoles) {
+            isModerator = interaction.member.roles.cache.some(role => role.id === modRoles[index]);
+        }
 
-        console.log(hasRole);
+        if (!isModerator) {
+            await errorEmbed(interaction, 'You do not have sufficient permissions to run this command.')
+            return;
+        }
 
         let banned = interaction.options.getBoolean('banned');
         let username = interaction.options.getString('username');
@@ -47,9 +48,9 @@ module.exports = {
         }
 
         let gameIcon = await getGameIcon(client, gameName);
-        let userHeadshot = await getUserHeadshot(client, userData.id);
+        let userHeadshot = await getUserHeadshot(client, userInfo.id);
 
-        let userInfoString = '**' + userData.displayName + '** (@' + userData.name + ') from **' + placeInfo.name + '**.'
+        let userInfoString = '**' + userInfo.displayName + '** (@' + userInfo.name + ') from **' + placeInfo.name + '**.'
         let embed = new EmbedBuilder()
             .setTitle('Toggle ban status')
             .setAuthor({ name: userInfo.displayName, iconURL: userHeadshot })
@@ -65,7 +66,7 @@ module.exports = {
             scriptContent = 'game.Players:UnbanAsync({ UserIds = { <ID> }, ApplyToUniverse = true })'
         }
 
-        scriptContent = scriptContent.replace('<ID>', userData.id);
+        scriptContent = scriptContent.replace('<ID>', userInfo.id);
         runSandboxedLuau(client, gameName, scriptContent);
 
         await interaction.reply({ embeds: [embed] });
