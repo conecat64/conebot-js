@@ -1,6 +1,8 @@
 const { EmbedBuilder, SlashCommandBuilder, MessageFlags } = require('discord.js');
 const { verifiedRoleId, embedColors, emojis } = require('../config.json');
 
+const errorEmbed = require('../utils/errorEmbed')
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('verify')
@@ -10,7 +12,14 @@ module.exports = {
         let member = interaction.member;
         let user = member.user;
         let role = member.guild.roles.cache.find(role => role.id === verifiedRoleId);
-        
+
+        let alreadyHasRole = member.roles.cache.some(role => role.id === places.abj.role);
+
+        if (alreadyHasRole) {
+            await errorEmbed(interaction, 'You are already verified!');
+            return
+        }
+
         member.roles.add(role);
 
         let embed = new EmbedBuilder()
