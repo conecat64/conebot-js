@@ -33,8 +33,6 @@ module.exports = {
                 { name: emojis.robux + 'Do you have A Block\'s Journey Early Access?', value: 'Redeem it by running `/redeem-early-access` in <#1474172093229830386>!\nIf not, you can buy it [here](https://www.roblox.com/game-pass/1507450319)!' }
             )
 
-        //member.roles.add(role);
-
         await interaction.reply({ embeds: [embed] });
     }
 }
