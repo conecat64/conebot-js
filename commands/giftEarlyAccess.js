@@ -42,7 +42,7 @@ module.exports = {
 
         if (saveData.EarlyAccess == true) {
             errorEmbed(interaction, 'User already has Early Access.', true);
-            return
+            return;
         }
 
         saveData.EarlyAccess = true;
