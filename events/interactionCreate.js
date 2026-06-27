@@ -16,8 +16,10 @@ module.exports = {
                     isModerator = interaction.member.roles.cache.some(role => role.id === modRoles[index]);
                 }
 
-                errorEmbed(interaction, 'You do not have sufficient permissions to run this command.');
-                return;
+                if (!isModerator) {
+                    errorEmbed(interaction, 'You do not have sufficient permissions to run this command.');
+                    return;
+                }
             }
 
             await client.commands[interaction.commandName].execute(interaction);
