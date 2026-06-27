@@ -40,6 +40,11 @@ module.exports = {
             return;
         }
 
+        if (saveData.EarlyAccess == true) {
+            errorEmbed(interaction, 'User already has Early Access.', true);
+            return
+        }
+
         saveData.EarlyAccess = true;
 
         let url = 'https://apis.roblox.com/cloud/v2/universes/' + gameData.universe + '/data-stores/' + gameData.datastore + '/entries/' + userInfo.id;
