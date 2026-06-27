@@ -6,9 +6,10 @@ const getUserHeadshot = require('../utils/getUserHeadshot');
 const getUserInfo = require('../utils/getUserInfo');
 const getGameIcon = require('../utils/getGameIcon');
 const errorEmbed = require('../utils/errorEmbed');
-const { compose } = require('node:stream');
 
 module.exports = {
+    moderatorOnly: true,
+    
     data: new SlashCommandBuilder()
         .setName('toggle-ban')
         .setDescription('Toggle someone\'s banned status from a CONECORP game.')
@@ -24,16 +25,6 @@ module.exports = {
     async execute(interaction) {
         let client = interaction.client;
         let member = interaction.member;
-        let isModerator = false;
-
-        for (index in modRoles) {
-            isModerator = interaction.member.roles.cache.some(role => role.id === modRoles[index]);
-        }
-
-        if (!isModerator) {
-            await errorEmbed(interaction, 'You do not have sufficient permissions to run this command.')
-            return;
-        }
 
         let banned = interaction.options.getBoolean('banned');
         let username = interaction.options.getString('username');
