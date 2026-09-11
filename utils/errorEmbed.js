@@ -1,6 +1,6 @@
 const { EmbedBuilder, MessageFlags, embedLength } = require('discord.js');
 
-module.exports = async function (interaction, description, makePublic, error) {
+module.exports = async function (interaction, description, makePublic) {
     if (!interaction) return;
     
     let errorEmbed = new EmbedBuilder()
